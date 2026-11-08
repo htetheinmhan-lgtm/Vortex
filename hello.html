@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vortex Client | Minecraft Utility Client</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #0f111a;
+      color: #e0e6ed;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #16192b;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #2a2f4c;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00d2ff;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      color: #a0aec0;
+      text-decoration: none;
+      margin-left: 20px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #00d2ff;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(180deg, #16192b 0%, #0f111a 100%);
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 15px;
+      color: #ffffff;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #a0aec0;
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.1s, background-color 0.2s;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background-color: #00d2ff;
+      color: #0f111a;
+    }
+
+    .btn-primary:hover {
+      background-color: #00b8e6;
+    }
+
+    .btn-secondary {
+      background-color: #2a2f4c;
+      color: #ffffff;
+    }
+
+    .btn-secondary:hover {
+      background-color: #3b426b;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #16192b;
+      padding: 25px;
+      border-radius: 8px;
+      border: 1px solid #2a2f4c;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      color: #00d2ff;
+      font-size: 18px;
+    }
+
+    .tag {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .tag-hud { background-color: #064e3b; color: #6ee7b7; }
+    .tag-utility { background-color: #3d2b45; color: #f472b6; }
+    .tag-pvp { background-color: #1e3a8a; color: #93c5fd; }
+
+    .card p {
+      color: #a0aec0;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .toggle-btn {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #2a2f4c;
+      background-color: #0f111a;
+      color: #a0aec0;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn.active {
+      background-color: #00d2ff;
+      color: #0f111a;
+      border-color: #00d2ff;
+    }
+
+    .changelog-box {
+      background-color: #16192b;
+      border-radius: 8px;
+      border: 1px solid #2a2f4c;
+      padding: 25px;
+      margin-top: 40px;
+    }
+
+    .changelog-box h3 {
+      color: #00d2ff;
+      margin-bottom: 15px;
+    }
+
+    .changelog-box ul {
+      list-style-type: square;
+      padding-left: 20px;
+      color: #a0aec0;
+    }
+
+    .changelog-box li {
+      margin-bottom: 8px;
+    }
+
+    .download-status {
+      margin-top: 25px;
+      padding: 15px;
+      background-color: #1b2433;
+      border-left: 4px solid #00d2ff;
+      border-radius: 4px;
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #718096;
+      font-size: 14px;
+      border-top: 1px solid #2a2f4c;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">VORTEX CLIENT</div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#modules">Modules</a>
+      <a href="#changelog">Updates</a>
+      <a href="#download">Download</a>
+      <a href="https://discord.gg/JjRMzw8h83" target="_blank">Discord</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Next-Gen Minecraft Utility Client</h1>
+    <p>Built for modern gameplay performance with lightweight modular HUD overlays and clean PvP utilities.</p>
+    
+    <div class="btn-group" id="download">
+      <button class="btn btn-primary" onclick="triggerDownload()">Download Installer</button>
+      <button class="btn btn-secondary" onclick="scrollToFeatures()">View Modules</button>
+    </div>
+
+    <div class="container" style="margin-bottom: 0;">
+      <div id="statusBox" class="download-status">
+        <strong id="statusText">Starting download...</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="features">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #ffffff;">Key Features</h2>
+    <div class="features">
+      <div class="card" style="justify-content: flex-start;">
+        <div class="card-header">
+          <h3>FPS & Engine Optimization</h3>
+          <span class="tag tag-utility">Core</span>
+        </div>
+        <p>Custom rendering pipelines optimized for smooth frame rates on low-end and high-end setups alike.</p>
+      </div>
+      <div class="card" style="justify-content: flex-start;">
+        <div class="card-header">
+          <h3>Modular HUD Elements</h3>
+          <span class="tag tag-hud">HUD</span>
+        </div>
+        <p>Drag-and-drop armor status, key stroke displays, active potion indicators, and custom nametags.</p>
+      </div>
+      <div class="card" style="justify-content: flex-start;">
+        <div class="card-header">
+          <h3>Clean PvP Utilities</h3>
+          <span class="tag tag-pvp">PvP</span>
+        </div>
+        <p>Custom motion blur, reach display, hit color animations, and customizable vector crosshair options.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="modules">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #ffffff;">Client Modules & Add-ons</h2>
+    <div class="features">
+      
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Keystrokes</h3>
+            <span class="tag tag-hud">HUD</span>
+          </div>
+          <p>Real-time on-screen keys displaying movement WASD inputs, mouse clicks, and current CPS counter.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Armor Status</h3>
+            <span class="tag tag-hud">HUD</span>
+          </div>
+          <p>Displays equipped armor items with live durability numbers and offhand item counters.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>CPS Display</h3>
+            <span class="tag tag-hud">HUD</span>
+          </div>
+          <p>Standalone clicks-per-second widget tracking left and right click speeds dynamically.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>FPS Display</h3>
+            <span class="tag tag-hud">HUD</span>
+          </div>
+          <p>Real-time frame rate monitor positioned anywhere on screen with customizable colors.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Ping Display</h3>
+            <span class="tag tag-hud">HUD</span>
+          </div>
+          <p>Tracks current connection latency response time to the connected multiplayer server.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Potion Effects</h3>
+            <span class="tag tag-hud">HUD</span>
+          </div>
+          <p>Clean vertical list showing active potion icons, amplifier levels, and countdown timers.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Boss Bar Customizer</h3>
+            <span class="tag tag-hud">HUD</span>
+          </div>
+          <p>Toggle, move, or hide dragon and wither boss health bars from blocking your screen.</p>
+        </div>
+        <button class="toggle-btn" onclick="toggleModule(this)">Disabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>1.7 Visuals & Animations</h3>
+            <span class="tag tag-pvp">PvP</span>
+          </div>
+          <p>Reverts hit animations, sword block-hitting, and item holding angles to classic 1.7 mechanics.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Reach Display</h3>
+            <span class="tag tag-pvp">PvP</span>
+          </div>
+          <p>On-screen text widget showing the exact block distance of landed hits on opponents.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Direction Motion Blur</h3>
+            <span class="tag tag-pvp">PvP</span>
+          </div>
+          <p>Smooth camera rotation motion blur shader optimized for high frame rates during camera turns.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Hit Color</h3>
+            <span class="tag tag-pvp">PvP</span>
+          </div>
+          <p>Customizes the red damage flash color on entities when taking or dealing hits to custom RGB tones.</p>
+        </div>
+        <button class="toggle-btn" onclick="toggleModule(this)">Disabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Crosshair Customizer</h3>
+            <span class="tag tag-pvp">PvP</span>
+          </div>
+          <p>Create custom crosshairs with custom thickness, gap size, color, dots, and outline options.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Fullbright</h3>
+            <span class="tag tag-utility">Utility</span>
+          </div>
+          <p>Overrides game lighting gamma to maximum brightness so caves and night zones remain clear.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Item Tracker & Physics</h3>
+            <span class="tag tag-utility">Utility</span>
+          </div>
+          <p>Adds realistic 3D item physics to dropped items and counts total items held in hotbar.</p>
+        </div>
+        <button class="toggle-btn" onclick="toggleModule(this)">Disabled</button>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <h3>Nametag Customizer</h3>
+            <span class="tag tag-utility">Utility</span>
+          </div>
+          <p>Renders custom player background opacity, ping indicators, and offline icon badges above heads.</p>
+        </div>
+        <button class="toggle-btn active" onclick="toggleModule(this)">Enabled</button>
+      </div>
+
+    </div>
+
+    <div class="changelog-box" id="changelog">
+      <h3>Updates & Changelog (v2.1.0)</h3>
+      <ul>
+        <li><strong>Added:</strong> 15 authentic client HUD and PvP modules (Keystrokes, CPS, Reach Display, 1.7 Visuals, Boss Bar).</li>
+        <li><strong>Improved:</strong> Optimized frame rendering pipelines on integrated graphics and low-end hardware.</li>
+        <li><strong>Fixed:</strong> Resolved custom resolution scaling issues on widescreen monitors.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Vortex Client. Not affiliated with Mojang Studios or Microsoft.</p>
+  </footer>
+
+  <script>
+    function triggerDownload() {
+      const link = document.createElement('a');
+      link.href = 'VortexClient.jar'; 
+      link.download = 'VortexClient.jar';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      const statusBox = document.getElementById('statusBox');
+      const statusText = document.getElementById('statusText');
+      
+      statusBox.style.display = 'block';
+      statusText.textContent = 'Download started! Downloading VortexClient.jar...';
+    }
+
+    function scrollToFeatures() {
+      document.getElementById('modules').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleModule(btn) {
+      if (btn.classList.contains('active')) {
+        btn.classList.remove('active');
+        btn.textContent = 'Disabled';
+      } else {
+        btn.classList.add('active');
+        btn.textContent = 'Enabled';
+      }
+    }
+  </script>
+
+</body>
+</html>
